@@ -2,6 +2,7 @@ defmodule Volt.UserController do
   use Volt.Web, :controller
 
   alias Volt.User
+  
 
   def index(conn, _params) do
     users = Repo.all(User)
