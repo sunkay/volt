@@ -1,5 +1,7 @@
 # Volt
 
+A starter kit with email/password authentication and oAuth integration. Authorization built in. 
+
 To start your Phoenix app:
 
   * Install dependencies with `mix deps.get`
