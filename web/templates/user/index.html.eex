@@ -4,7 +4,6 @@
   <thead>
     <tr>
       <th>Email</th>
-      <th>Password</th>
 
       <th></th>
     </tr>
@@ -13,7 +12,6 @@
 <%= for user <- @users do %>
     <tr>
       <td><%= user.email %></td>
-      <td><%= user.password %></td>
 
       <td class="text-right">
         <%= link "Show", to: user_path(@conn, :show, user), class: "btn btn-default btn-xs" %>
