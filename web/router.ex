@@ -13,6 +13,13 @@ defmodule Volt.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/manage", Volt do
+    pipe_through :browser # Use the default browser stack
+
+    resources "/users", UserController
+  end
+
+
   scope "/", Volt do
     pipe_through :browser # Use the default browser stack
 
