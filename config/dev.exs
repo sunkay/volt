@@ -36,7 +36,7 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :volt, Volt.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "sunil",
+  username: "skayiti",
   password: "",
   database: "volt_dev",
   hostname: "localhost",

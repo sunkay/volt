@@ -12,7 +12,7 @@ config :logger, level: :warn
 # Configure your database
 config :volt, Volt.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "sunil",
+  username: "skayiti",
   password: "",
   database: "volt_test",
   hostname: "localhost",

@@ -1,5 +1,10 @@
 <div class="jumbotron">
   <h2><%= gettext "Welcome to %{name}", name: "Volt!" %></h2>
-  <p class="lead">VOLT!!!</p>
+  <%= if @current_user do %>
+    <p class="lead"><%= @current_user.email %>!!!</p>
+  <% else %>
+    <p class="lead">No User Set!!!</p>
+  <% end %>
   <%= link "Users", to: user_path(@conn, :index) %>
+
 </div>

@@ -2,7 +2,7 @@ defmodule Volt.SessionController do
   use Volt.Web, :controller
 
   alias Volt.User
-  alias Comeonin.Bcrypt
+  alias Volt.Plugs.Auth
 
   def new(conn, _params) do
     changeset = User.changeset(%User{})
@@ -11,9 +11,10 @@ defmodule Volt.SessionController do
 
   def create(conn, %{"user" => %{"email" => email, "password" => pass}}) do
 
-    case validate_password(conn, email, pass) do
-      {:ok, user} ->
+    case Auth.validate_password(conn, email, pass) do
+      {:ok, conn} ->
         conn
+        |> IO.inspect
         |> put_flash(:info, "Welcome back")
         |> redirect(to: page_path(conn, :index))
       _ ->
@@ -22,30 +23,10 @@ defmodule Volt.SessionController do
     end
   end
 
-  defp validate_password(conn, email, pass) do
-    user = Repo.get_by(User, email: email)
-
-    cond do
-      user && Bcrypt.checkpw(pass, user.password) ->
-        {:ok, login(conn, user)}
-      user ->
-        {:error, :unauthorized}
-      true ->
-        Bcrypt.dummy_checkpw()
-        {:error, :not_found}
-    end
-  end
-
-  defp login(conn, user) do
+  def delete(conn, _) do
     conn
-    |> assign(:current_user, user)
-    |> put_session(:user_id, user.id)
-    |> configure_session(renew: true)
-  end
-
-  defp logout(conn) do
-    conn
-    |> configure_session(drop: true)
+    |> Auth.logout
+    |> redirect(to: page_path(conn, :index))
   end
 
 end

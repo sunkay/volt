@@ -25,10 +25,20 @@
               <% end %>
               <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
               <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><%= link "Login", to: session_path(@conn, :new) %></li>
+                <%= if @current_user do %>
+                  <li><%= link "Logout", to: session_path(@conn, :delete, @current_user), method: "delete" %></li>
+                <% else %>
+                  <li><%= link "Register", to: user_path(@conn, :new) %></li>
+                  <li><%= link "Login", to: session_path(@conn, :new) %></li>
+                <% end %>
               </ul>
               <ul class="side-nav" id="mobile-demo">
-                <li><%= link "Login", to: session_path(@conn, :new) %></li>
+                <%= if @current_user do %>
+                  <li><%= link "Logout", to: session_path(@conn, :delete, @current_user), method: "delete" %></li>
+                <% else %>
+                  <li><%= link "Register", to: user_path(@conn, :new) %></li>
+                  <li><%= link "Login", to: session_path(@conn, :new) %></li>
+                <% end %>
               </ul>
             </div>
           </nav>
