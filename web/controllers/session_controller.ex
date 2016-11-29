@@ -14,7 +14,6 @@ defmodule Volt.SessionController do
     case Auth.validate_password(conn, email, pass) do
       {:ok, conn} ->
         conn
-        |> IO.inspect
         |> put_flash(:info, "Welcome back")
         |> redirect(to: page_path(conn, :index))
       _ ->

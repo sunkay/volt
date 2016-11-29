@@ -2,7 +2,8 @@ defmodule Volt.UserController do
   use Volt.Web, :controller
 
   alias Volt.User
-  
+
+  plug Volt.Plugs.RequireAuth when action in [:index, :show, :edit, :update, :delete]
 
   def index(conn, _params) do
     users = Repo.all(User)
@@ -21,7 +22,7 @@ defmodule Volt.UserController do
       {:ok, _user} ->
         conn
         |> put_flash(:info, "User created successfully.")
-        |> redirect(to: user_path(conn, :index))
+        |> redirect(to: session_path(conn, :new))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
