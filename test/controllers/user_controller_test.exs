@@ -3,6 +3,7 @@ defmodule Volt.UserControllerTest do
 
   alias Volt.User
   @valid_attrs %{email: "x@y.com", password: "some content"}
+  @valid_attrs1 %{email: "x1@y.com", password: "some content"}
   @invalid_attrs %{}
 
   setup do
@@ -22,9 +23,9 @@ defmodule Volt.UserControllerTest do
   end
 
   test "creates resource and redirects when data is valid", %{conn: conn} do
-    conn = post conn, user_path(conn, :create), user: @valid_attrs
+    conn = post conn, user_path(conn, :create), user: @valid_attrs1
     assert redirected_to(conn) == session_path(conn, :new)
-    #assert Repo.get_by(User, email: @valid_attrs.email)
+    assert Repo.get_by(User, email: @valid_attrs1.email)
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
@@ -52,9 +53,8 @@ defmodule Volt.UserControllerTest do
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
     user = Repo.insert! %User{}
-    conn = put conn, user_path(conn, :update, user), user: @valid_attrs
+    conn = put conn, user_path(conn, :update, user), user: @valid_attrs1
     assert redirected_to(conn) == user_path(conn, :show, user)
-    #assert Repo.get_by(User, @valid_attrs)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
