@@ -3,7 +3,7 @@ defmodule Volt.UserTest do
 
   alias Volt.User
 
-  @valid_attrs %{email: "some content", password: "some content"}
+  @valid_attrs %{email: "some@content", password: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

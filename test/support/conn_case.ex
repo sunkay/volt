@@ -26,6 +26,7 @@ defmodule Volt.ConnCase do
       import Ecto.Query
 
       import Volt.Router.Helpers
+      import Volt.TestHelpers
 
       # The default endpoint for testing
       @endpoint Volt.Endpoint
