@@ -3,13 +3,32 @@ defmodule Volt.UserControllerTest do
 
   alias Volt.User
   @valid_attrs %{email: "x@y.com", password: "some content"}
-  @valid_attrs1 %{email: "x1@y.com", password: "some content"}
   @invalid_attrs %{}
 
-  setup do
-    user = insert_user(email: "x@y.com")
-    conn = assign(build_conn(), :current_user, user)
-    {:ok, conn: conn, user: user}
+  setup %{conn: conn} = config do
+    if config[:logged_out] do
+      :ok
+    else
+      user = insert_user(email: "x@y.com")
+      conn = assign(build_conn(), :current_user, user)
+      {:ok, conn: conn, user: user}
+    end
+  end
+
+  @tag :logged_out
+  test "redirect happens when there is no user session",
+      %{conn: conn} do
+
+    Enum.each([
+      get(conn, user_path(conn, :index)),
+      get(conn, user_path(conn, :show, "123")),
+      get(conn, user_path(conn, :edit, "123")),
+      put(conn, user_path(conn, :update, "123", %{})),
+      delete(conn, user_path(conn, :show, "123"))
+      ], fn conn ->
+        assert redirected_to(conn) == page_path(conn, :index)
+        assert conn.halted
+    end)
   end
 
   test "lists all entries on index is redirected", %{conn: conn} do
@@ -22,10 +41,11 @@ defmodule Volt.UserControllerTest do
     assert html_response(conn, 200) =~ "New user"
   end
 
+  @tag :logged_out
   test "creates resource and redirects when data is valid", %{conn: conn} do
-    conn = post conn, user_path(conn, :create), user: @valid_attrs1
+    conn = post conn, user_path(conn, :create), user: @valid_attrs
     assert redirected_to(conn) == session_path(conn, :new)
-    assert Repo.get_by(User, email: @valid_attrs1.email)
+    assert Repo.get_by(User, email: @valid_attrs.email)
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
@@ -53,7 +73,7 @@ defmodule Volt.UserControllerTest do
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
     user = Repo.insert! %User{}
-    conn = put conn, user_path(conn, :update, user), user: @valid_attrs1
+    conn = put conn, user_path(conn, :update, user), user: @valid_attrs
     assert redirected_to(conn) == user_path(conn, :show, user)
   end
 
