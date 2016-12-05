@@ -15,4 +15,10 @@ defmodule Volt.UserTest do
     changeset = User.changeset(%User{}, @invalid_attrs)
     refute changeset.valid?
   end
+
+  test "changeset checks unique_constraint voilation" do
+    _ = insert_user(@valid_attrs)
+    changeset = User.changeset(%User{}, @valid_attrs)
+    assert changeset.valid?
+  end
 end

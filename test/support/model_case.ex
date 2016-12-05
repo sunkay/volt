@@ -22,6 +22,8 @@ defmodule Volt.ModelCase do
       import Ecto.Changeset
       import Ecto.Query
       import Volt.ModelCase
+      
+      import Volt.TestHelpers
     end
   end
 

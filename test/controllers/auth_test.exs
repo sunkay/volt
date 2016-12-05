@@ -85,5 +85,26 @@ defmodule Volt.AuthTest do
     refute conn.assigns.current_user
   end
 
+  test "RequireAuth Plug halts connection if current_user is nil",
+      %{conn: conn} do
+
+      conn =
+        conn
+        |> Volt.Plugs.RequireAuth.call("123")
+
+      refute conn.assigns.current_user
+  end
+
+  test "RequireAuth Plug returns connection if current_user is set",
+      %{conn: conn} do
+
+      conn =
+        conn
+        |> assign(:current_user, insert_user(email: "x@y.com"))
+        |> Volt.Plugs.RequireAuth.call("123")
+
+      assert conn.assigns.current_user.email == "x@y.com"
+  end
+
 
 end
