@@ -3,3 +3,13 @@
 .brand-logo{
   margin-left: 20px
 }
+
+
+/* Materialize CSS specific. */
+nav ul a {
+font-size: 1.5rem;
+color: #FF8;
+}
+div label{
+  font-size: 1.2rem;
+}
