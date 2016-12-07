@@ -2,7 +2,7 @@ defmodule Volt.UserControllerTest do
   use Volt.ConnCase
 
   alias Volt.User
-  @valid_attrs %{email: "x@y.com", password: "some content"}
+  @valid_attrs %{email: "x@y.com", password: "some content", password_confirmation: "some content"}
   @invalid_attrs %{}
 
   setup %{conn: conn} = config do

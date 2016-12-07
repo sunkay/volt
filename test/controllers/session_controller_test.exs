@@ -1,8 +1,8 @@
 defmodule Volt.SessoionControllerTest do
   use Volt.ConnCase
 
-  @valid_attrs %{email: "x@y.com", password: "some content"}
-  @invalid_attrs %{email: "x@y.com", password: "wrong"}
+  @valid_attrs %{email: "x@y.com", password: "some content", password_confirmation: "some content"}
+  @invalid_attrs %{email: "x@y.com", password: "wrong", password_confirmation: "wrong"}
 
   test "new session presents login page",
       %{conn: conn} do
@@ -30,7 +30,7 @@ defmodule Volt.SessoionControllerTest do
 
   test "delete session logs out the user correctly",
       %{conn: conn} do
-        
+
       conn = delete conn, session_path(conn, :delete, "123")
       assert redirected_to(conn) == page_path(conn, :index)
   end
