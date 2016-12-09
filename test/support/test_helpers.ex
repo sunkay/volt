@@ -4,11 +4,12 @@ defmodule Volt.TestHelpers do
   def insert_user(attrs \\ %{}) do
     changes = Dict.merge(%{
       email: "Some@User.com",
-      password: "supersecret"
+      password: "supersecret",
+      password_confirmation: "supersecret"
       }, attrs)
 
       %Volt.User{}
-      |> Volt.User.changeset(changes)
+      |> Volt.User.registration_changeset(changes)
       |> Repo.insert!()
   end
 end

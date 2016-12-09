@@ -63,7 +63,7 @@ defmodule Volt.AuthTest do
   test "validate password has a valid user in assigns current_user",
       %{conn: conn} do
 
-    _ = insert_user(email: "x@y.com", password: "secret")
+    _ = insert_user(email: "x@y.com", password: "secret", password_confirmation: "secret")
 
     {:ok, conn} = Auth.validate_password(conn, "x@y.com", "secret")
     assert conn.assigns.current_user.email == "x@y.com"
@@ -72,7 +72,7 @@ defmodule Volt.AuthTest do
   test "validate_password returns unauthorized if validation fails",
       %{conn: conn} do
 
-    _ = insert_user(email: "x@y.com", password: "secret")
+    _ = insert_user(email: "x@y.com", password: "secret", password_confirmation: "secret")
 
     {:error, :unauthorized} = Auth.validate_password(conn, "x@y.com", "wrong")
     refute conn.assigns.current_user

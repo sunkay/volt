@@ -13,7 +13,7 @@ defmodule Volt.User do
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
-  def changeset(struct, params \\ %{}) do
+  def registration_changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:email, :password, :password_confirmation])
     |> validate_required([:email, :password])
@@ -21,6 +21,13 @@ defmodule Volt.User do
     |> unique_constraint(:email)
     |> confirm_password
     |> put_password_hash
+  end
+
+  def login_changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:email, :password])
+    |> validate_required([:email, :password])
+    |> validate_format(:email, ~r/@/)
   end
 
   defp put_password_hash(changeset) do
@@ -38,10 +45,10 @@ defmodule Volt.User do
         if password == confirm do
           changeset
         else
-          add_error(changeset, :password, "password confirmation failed")
+          add_error(changeset, :confirm_password, "password confirmation failed")
         end
-      _ ->
-        changeset
+      %Ecto.Changeset{valid?: false} ->
+          changeset
     end
   end
 end

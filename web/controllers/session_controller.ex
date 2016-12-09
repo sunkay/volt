@@ -5,7 +5,7 @@ defmodule Volt.SessionController do
   alias Volt.Plugs.Auth
 
   def new(conn, _params) do
-    changeset = User.changeset(%User{})
+    changeset = User.login_changeset(%User{})
     render conn, "login.html", changeset: changeset
   end
 
@@ -17,7 +17,7 @@ defmodule Volt.SessionController do
         |> put_flash(:info, "Welcome back")
         |> redirect(to: page_path(conn, :index))
       _ ->
-        changeset = User.changeset(%User{}, %{"email" => email, "password" => pass})
+        changeset = User.login_changeset(%User{}, %{"email" => email, "password" => pass})
         render conn, "login.html", changeset: %{changeset | action: :insert}
     end
   end
