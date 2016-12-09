@@ -1,7 +1,7 @@
 defmodule Volt.UserController do
   use Volt.Web, :controller
-
   alias Volt.User
+  require Logger
 
   plug Volt.Plugs.RequireAuth when action in [:index, :show, :edit, :update, :delete]
 
@@ -17,7 +17,7 @@ defmodule Volt.UserController do
 
   def create(conn, %{"user" => user_params}) do
     changeset = User.registration_changeset(%User{}, user_params)
-
+    Logger.warn "#{inspect(user_params)}"
     case Repo.insert(changeset) do
       {:ok, _user} ->
         conn

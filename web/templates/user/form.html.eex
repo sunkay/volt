@@ -19,8 +19,8 @@
 
   <div class="form-group">
     <%= label f, :confirm_password, class: "control-label" %>
-    <%= text_input f, :confirm_password, class: "form-control" %>
-    <%= error_tag f, :confirm_password %>
+    <%= text_input f, :password_confirmation, class: "form-control" %>
+    <%= error_tag f, :password_confirmation %>
   </div>
 
   <div class="form-group">

@@ -1,6 +1,6 @@
 defmodule Volt.User do
   use Volt.Web, :model
-
+  require Logger
   alias Comeonin.Bcrypt
 
   schema "users" do
@@ -16,7 +16,7 @@ defmodule Volt.User do
   def registration_changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:email, :password, :password_confirmation])
-    |> validate_required([:email, :password])
+    |> validate_required([:email, :password, :password_confirmation])
     |> validate_format(:email, ~r/@/ )
     |> unique_constraint(:email)
     |> confirm_password
@@ -40,6 +40,7 @@ defmodule Volt.User do
   end
 
   defp confirm_password(changeset) do
+    Logger.warn "#{inspect(changeset)}"
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: password, password_confirmation: confirm}} ->
         if password == confirm do

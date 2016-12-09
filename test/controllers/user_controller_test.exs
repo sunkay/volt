@@ -71,8 +71,7 @@ defmodule Volt.UserControllerTest do
     assert html_response(conn, 200) =~ "Edit user"
   end
 
-  test "updates chosen resource and redirects when data is valid", %{conn: conn} do
-    user = Repo.insert! %User{}
+  test "updates chosen resource and redirects when data is valid", %{conn: conn, user: user} do
     conn = put conn, user_path(conn, :update, user), user: @valid_attrs
     assert redirected_to(conn) == user_path(conn, :show, user)
   end
