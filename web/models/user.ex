@@ -40,7 +40,7 @@ defmodule Volt.User do
   end
 
   defp confirm_password(changeset) do
-    Logger.warn "#{inspect(changeset)}"
+    #Logger.warn "#{inspect(changeset)}"
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: password, password_confirmation: confirm}} ->
         if password == confirm do
