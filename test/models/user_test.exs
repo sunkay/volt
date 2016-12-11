@@ -29,7 +29,7 @@ defmodule Volt.UserTest do
     refute changeset.valid?
   end
 
-  test "changeset confirm_password returns error hen it does have a confirm_password field present" do
+  test "changeset confirm_password returns error when it does NOT have a confirm_password field present" do
     changeset = User.registration_changeset(%User{}, @no_confirm_attr)
     refute changeset.valid?
   end

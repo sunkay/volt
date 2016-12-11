@@ -17,7 +17,6 @@ defmodule Volt.UserController do
 
   def create(conn, %{"user" => user_params}) do
     changeset = User.registration_changeset(%User{}, user_params)
-    Logger.warn "#{inspect(user_params)}"
     case Repo.insert(changeset) do
       {:ok, _user} ->
         conn
@@ -41,7 +40,7 @@ defmodule Volt.UserController do
 
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = Repo.get!(User, id)
-    changeset = User.registration_changeset(user, user_params)
+    changeset = User.update_changeset(user, user_params)
 
     case Repo.update(changeset) do
       {:ok, user} ->
