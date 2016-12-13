@@ -38,7 +38,7 @@ defmodule Volt.User do
     |> unique_constraint(:email)
   end
 
-  defp put_password_hash(changeset) do
+  def put_password_hash(changeset) do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: password}} ->
         put_change(changeset, :password, Bcrypt.hashpwsalt(password))
@@ -47,7 +47,7 @@ defmodule Volt.User do
     end
   end
 
-  defp confirm_password(changeset) do
+  def confirm_password(changeset) do
     #Logger.warn "#{inspect(changeset)}"
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: password, password_confirmation: confirm}} ->
@@ -60,4 +60,19 @@ defmodule Volt.User do
           changeset
     end
   end
+
+  def validate_user_password(changeset, user) do
+    case changeset do
+      %Ecto.Changeset{valid?: true, changes: %{old_password: oldpwd}} ->
+        cond do
+          user && Comeonin.Bcrypt.checkpw(oldpwd, user.password) ->
+            changeset
+          true ->
+            add_error(changeset, :old_password, "OLD password confirmation failed")
+        end
+      _ ->
+        changeset
+    end
+  end
+
 end

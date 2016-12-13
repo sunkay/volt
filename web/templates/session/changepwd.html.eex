@@ -1,0 +1,31 @@
+<h2>Change Password</h2>
+<%= form_for @changeset, session_path(@conn, :changepwd_update), [as: :changepwd], fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Error changing password. Please check errors below and try again...</p>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= label f, :old_password, class: "control-label" %>
+    <%= text_input f, :old_password, class: "form-control" %>
+    <%= error_tag f, :old_password %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, "New Password", class: "control-label" %>
+    <%= text_input f, :password, class: "form-control" %>
+    <%= error_tag f, :password %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, "Confirm Password", class: "control-label" %>
+    <%= text_input f, :password_confirmation, class: "form-control" %>
+    <%= error_tag f, :confirm_password %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+
+<% end %>

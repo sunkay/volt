@@ -26,6 +26,8 @@ defmodule Volt.Router do
 
     get "/", PageController, :index
     resources "/sessions", SessionController, only: [:new, :create, :delete]
+    get "/changepwd", SessionController, :changepwd_show
+    post "/changepwd", SessionController, :changepwd_update
   end
 
   # Other scopes may use custom stacks.
