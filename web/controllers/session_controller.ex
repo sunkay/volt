@@ -1,6 +1,6 @@
 defmodule Volt.SessionController do
   use Volt.Web, :controller
-  import Logger
+  #import Logger
 
   alias Volt.User
   alias Volt.Plugs.Auth
@@ -38,7 +38,6 @@ defmodule Volt.SessionController do
     renders the change password page
   """
   def changepwd_show(conn, params) do
-    Logger.info "Params: #{inspect(params)}"
     changeset =
       changepwd_changeset(%User{}, params)
     render conn, "changepwd.html", changeset: changeset
@@ -48,18 +47,16 @@ defmodule Volt.SessionController do
     POST method which takes in the given params, validates and changes the current_user password
   """
   def changepwd_update(conn, %{"changepwd" => params}) do
-    Logger.info "changepwd_update: Params: #{inspect(params)}"
+
     user = Repo.get(User, get_session(conn, :user_id))
     changeset = changepwd_changeset(%{}, params, user)
 
     if changeset.valid? do
-      Logger.info "changeset #{inspect(changeset)}"
       Repo.update_all(User, set: [password: changeset.changes.password])
       conn
       |> put_flash(:info, "Change password is successful #{user.email}")
       |> redirect(to: page_path(conn, :index))
     else
-      Logger.info "changeset: #{inspect(changeset)}"
       render conn, "changepwd.html", changeset: %{changeset | action: :update}
     end
   end

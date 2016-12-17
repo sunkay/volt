@@ -9,6 +9,7 @@ defmodule Volt.Mixfile do
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     description: "Volt an auth/auth phoenix module",
      aliases: aliases(),
      deps: deps()]
   end
