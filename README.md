@@ -1,6 +1,6 @@
 # Volt
 
-A starter kit with email/password authentication and oAuth integration. Authorization built in. 
+An elixir/phoenix project to learn authentication and oAuth integration. Build ABAC Authorization 
 
 To start your Phoenix app:
 
